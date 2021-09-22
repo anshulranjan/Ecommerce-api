@@ -25,7 +25,7 @@ const productSchema = new Schema({
         trim: true,
     },
     category: {type: ObjectId, ref: "Category", required: true},
-    //subcategory: [{type: ObjectId, ref: "SubCategory", required: true}],
+    subcategory: [{type: ObjectId, ref: "SubCategory", required: true}],
     //brand: {type: ObjectId, ref: "Brand", required: true},
     quantity: {
         type:Number,
