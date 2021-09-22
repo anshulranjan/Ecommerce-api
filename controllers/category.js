@@ -34,8 +34,11 @@ exports.update = async(req,res) => {
 exports.remove = async(req,res) => {
     try{
         const deleted = await Category.findOneAndDelete({slug: req.params.slug});
+        await SubCategory.deleteMany({parent:deleted._id})
+        console.log(deleted)
         res.json(deleted);
     } catch(err) {
+        console.log(err)
         res.status(400).send('Category cannot be deleted. Please try again');
     }
     
