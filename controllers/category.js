@@ -1,6 +1,5 @@
 const Category = require('../models/category');
 const slugify = require('slugify');
-const { findOneAndDelete } = require('../models/category');
 
 exports.create = async(req,res) => {
     try{
