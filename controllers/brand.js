@@ -3,11 +3,11 @@ const slugify = require('slugify');
 
 exports.create = async(req,res) => {
     try{
-        const {name} = req.body;
-        const brand = await new Brand({name, slug: slugify(name).toLowerCase()}).save();
+        const {name, parentCat, parentSub} = req.body;
+        const brand = await new Brand({name, parentCat, parentSub, slug: slugify(name).toLowerCase()}).save();
         res.json(brand); 
     } catch(err) {
-        res.status(400).send('Sorry, Brand creation failed');
+        res.status(400).send('Sorry, Brand creation failed. Make sure brand name is unique');
     }
 }
 
@@ -21,12 +21,12 @@ exports.read = async(req,res) => {
 }
 
 exports.update = async(req,res) => {
-    const {name} = req.body;
+    const {name, parentCat, parentSub} = req.body;
     try{
-        const updated = await Brand.findOneAndUpdate({slug: req.params.slug}, {name, slug: slugify(name)}, {new: true});
+        const updated = await Brand.findOneAndUpdate({slug: req.params.slug}, {name, parentCat, parentSub, slug: slugify(name)}, {new: true});
         res.json(updated);
     } catch(err) {
-        res.status(400).send('Brand updation failed');
+        res.status(400).send('Brand updation failed. Brand name should be unique');
     }
 }
 
@@ -37,5 +37,4 @@ exports.remove = async(req,res) => {
     } catch(err) {
         res.status(400).send('Brand cannot be deleted. Please try again');
     }
-    
 }
