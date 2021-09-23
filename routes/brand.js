@@ -5,8 +5,9 @@ const {create, read, update, remove, list} = require('../controllers/brand');
 
 router.post('/brand', authCheck, adminCheck, create)
 router.get('/brand', list)
-router.get('/brand/:slug', read)
-router.put('/brand/:slug', authCheck, adminCheck, update)
-router.delete('/brand/:slug', authCheck, adminCheck, remove)
+router.get('/brand/:_id', read)
+router.put('/brand/:_id', authCheck, adminCheck, update)
+router.delete('/brand/:_id', authCheck, adminCheck, remove)
+
 
 module.exports = router;
