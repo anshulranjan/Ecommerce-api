@@ -11,6 +11,7 @@ const brandSchema = new Schema({
         type: String,
         lowercase: true,
         index: true,
+        unique: false,
     },
     parentCat: {type: ObjectId, ref: "Category", required: true},
     parentSub: {type: ObjectId, ref: "SubCategory", required: true},

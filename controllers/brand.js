@@ -5,10 +5,12 @@ const Category = require('../models/category')
 
 exports.create = async(req,res) => {
     try{
+        console.log(req.body)
         const {name, parentCat, parentSub} = req.body;
         const brand = await new Brand({name, parentCat, parentSub, slug: slugify(name).toLowerCase()}).save();
         res.json(brand); 
     } catch(err) {
+        console.log(err)
         res.status(400).send('Sorry, Brand creation failed. Make sure brand name is unique');
     }
 }
