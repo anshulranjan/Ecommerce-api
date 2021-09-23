@@ -40,3 +40,13 @@ exports.remove = async(req,res) => {
     }
     
 }
+
+exports.getSubBrand = async(req,res) => {
+    Brand.find({parentSub:req.params._id}).exec((err, subs) =>{
+        if(err)
+        {
+            console.log(err);
+        }
+        res.json(subs);
+    })
+};
