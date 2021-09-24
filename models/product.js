@@ -34,6 +34,10 @@ const productSchema = new Schema({
         type:Number,
         default:0,
     },
+    gender:{
+        type:String,
+        required:true,
+    },
     //images:{type: Array},
     shipping:{
         type:String,
