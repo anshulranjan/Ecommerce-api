@@ -25,8 +25,8 @@ const productSchema = new Schema({
         trim: true,
     },
     category: {type: ObjectId, ref: "Category", required: true},
-    subcategory: [{type: ObjectId, ref: "SubCategory", required: true}],
-    //brand: {type: ObjectId, ref: "Brand", required: true},
+    subcategory: {type: ObjectId, ref: "SubCategory", required: true},
+    brand: {type: ObjectId, ref: "Brand", required: true},
     quantity: {
         type:Number,
     },
@@ -45,7 +45,7 @@ const productSchema = new Schema({
     },
     color:{
         type:String,
-        enum:["Black","Red","Green","Silver","White","Blue"],
+        enum:["Black","Red","Green","Silver","White","Blue","Yellow","Black","Grey"],
     },
     /*ratings:[{
         star:Number,

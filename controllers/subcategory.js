@@ -1,5 +1,6 @@
 const SubCategory = require('../models/subcategory');
 const slugify = require('slugify');
+const Brand = require('../models/brand');
 
 exports.create = async(req,res) => {
     try{
