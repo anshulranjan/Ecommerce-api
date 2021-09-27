@@ -38,7 +38,7 @@ const productSchema = new Schema({
         type:String,
         required:true,
     },
-    //images:{type: Array},
+    images:{type: Array},
     shipping:{
         type:String,
         enum:["Yes","No"],
