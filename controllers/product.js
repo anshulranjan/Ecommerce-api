@@ -25,3 +25,30 @@ exports.listAll = async(req,res) => {
     res.json(products);
 
 }
+
+exports.remove = async(req, res) => {
+    try{
+        const deleted = await Product.findOneAndDelete({slug: req.params.slug});
+        res.json(deleted);
+    } catch(err) {
+        res.status(400).send('Product cannot be deleted. Please try again');
+    }
+}
+
+exports.read = async(req,res) => {
+    let product = await Product.findOne({slug: req.params.slug})
+        .populate('category')
+        .populate('subcategory')
+        .exec();
+    res.json(product);
+}
+
+exports.update = async(req, res) =>{
+    try{
+        const {images,title, description, price, quantity, category, subcategory, color, gender, brand, shipping} = req.body;
+        const updated = await Product.findOneAndUpdate({slug: req.params.slug}, {images,title, description, price, quantity, category, subcategory, color, gender, brand, shipping, slug: slugify(title)}, {new: true});
+        res.json(updated);
+    } catch(err) {
+        res.status(400).send('Product updation failed');
+    }
+}
