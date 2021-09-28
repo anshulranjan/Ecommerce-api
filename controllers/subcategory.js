@@ -1,7 +1,7 @@
 const SubCategory = require('../models/subcategory');
 const slugify = require('slugify');
 const Brand = require('../models/brand');
-
+const Product = require('../models/product')
 exports.create = async(req,res) => {
     try{
         const {name, parent} = req.body;
@@ -35,6 +35,8 @@ exports.update = async(req,res) => {
 exports.remove = async(req,res) => {
     try{
         const deleted = await SubCategory.findOneAndDelete({slug: req.params.slug});
+        await Brand.deleteMany({parentSub:deleted._id})
+        await Product.deleteMany({subcategory:deleted._id})
         res.json(deleted);
     } catch(err) {
         res.status(400).send('SubCategory cannot be deleted. Please try again');

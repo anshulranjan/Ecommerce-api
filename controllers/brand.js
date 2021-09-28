@@ -1,8 +1,6 @@
 const Brand = require('../models/brand');
 const slugify = require('slugify');
-const SubCategory = require('../models/subcategory');
-const Category = require('../models/category')
-
+const Product = require('../models/product');
 exports.create = async(req,res) => {
     try{
         console.log(req.body)
@@ -37,6 +35,7 @@ exports.update = async(req,res) => {
 exports.remove = async(req,res) => {
     try{
         const deleted = await Brand.findOneAndDelete({_id: req.params._id});
+        await Product.deleteMany({brand:deleted._id})
         res.json(deleted);
     } catch(err) {
         res.status(400).send('Brand cannot be deleted. Please try again');

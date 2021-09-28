@@ -1,6 +1,8 @@
 const Category = require('../models/category');
 const slugify = require('slugify');
 const SubCategory = require('../models/subcategory')
+const Brand = require('../models/brand');
+const Product = require('../models/product');
 
 exports.create = async(req,res) => {
     try{
@@ -35,6 +37,8 @@ exports.remove = async(req,res) => {
     try{
         const deleted = await Category.findOneAndDelete({slug: req.params.slug});
         await SubCategory.deleteMany({parent:deleted._id})
+        await Brand.deleteMany({parentCat:deleted._id})
+        await Product.deleteMany({category:deleted._id})
         console.log(deleted)
         res.json(deleted);
     } catch(err) {
