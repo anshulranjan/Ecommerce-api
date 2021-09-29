@@ -55,12 +55,16 @@ exports.update = async(req, res) =>{
 
 exports.list = async(req,res) => {
     try{
-        const {sort, order, limit} = req.body;
+        const {sort, order, page} = req.body;
+        const current_page = page || 1;
+        const perPage = 6;
+
         const products = await Product.find({})
+            .skip((current_page-1)* perPage)
             .populate('category')
             .populate('subcategory')
             .sort([[sort, order]])
-            .limit(limit)
+            .limit(perPage)
             .exec();
         res.json(products);
     }
