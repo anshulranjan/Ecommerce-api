@@ -57,3 +57,9 @@ exports.getSubCategories = async(req,res) => {
         res.json(subs);
     })
 };
+
+exports.productCountWithCategory = async(req,res) =>{
+    let total = await Product.find({category:req.params._id}).estimatedDocumentCount().exec();
+    console.log(total);
+    res.json(total);
+};

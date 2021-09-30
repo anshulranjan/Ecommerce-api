@@ -39,6 +39,7 @@ exports.read = async(req,res) => {
     let product = await Product.findOne({slug: req.params.slug})
         .populate('category')
         .populate('subcategory')
+        .populate('brand')
         .exec();
     res.json(product);
 }
