@@ -9,5 +9,4 @@ router.get('/category/:slug', read)
 router.put('/category/:slug', authCheck, adminCheck, update)
 router.delete('/category/:slug', authCheck, adminCheck, remove)
 router.get('/category/subcategory/:_id', getSubCategories)
-router.get('/product/category/:_id', productCountWithCategory)
 module.exports = router;
