@@ -98,4 +98,31 @@ exports.productStar = async(req,res) => {
             {new: true}).exec();
         res.json(ratingUpdated);
     }
+};
+
+exports.readCategoryProduct = async(req,res) =>{
+    const product = await Product.findById(req.params.productId).exec();
+    const relatedCategory = await Product.find({
+        _id :{$ne : product._id},
+        category: product.category,
+    }).limit(6)
+    .populate('category')
+    .populate('subcategory').exec();
+    res.json(relatedCategory);
+};
+
+exports.readSubProduct = async(req,res) =>{
+    const product = await Product.findById(req.params.productId).exec();
+    try{
+        const relatedCategory = await Product.find({
+            _id :{$ne : product._id},
+            subcategory: product.subcategory,
+            }).limit(6)
+            .populate('category')
+            .populate('subcategory').exec();
+            res.json(relatedCategory);
+    }
+    catch(err){
+        console.log(err)
+    }   
 }
