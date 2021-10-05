@@ -125,4 +125,60 @@ exports.readSubProduct = async(req,res) =>{
     catch(err){
         console.log(err)
     }   
+};
+
+const handleQuery = async(req,res,query) =>{
+    const products = await Product.find({ $text : {$search : query}})
+        .populate('category', "_id name")
+        .populate('subcategory', "_id name")
+        .populate('brand', "_id name")
+        .exec();
+    res.json(products);
+};
+
+//read by subcategory
+exports.extractProductBySubs = async(req,res) =>{
+    try{
+        const {page} = req.body;
+        const current_page = page || 1;
+        const perPage = 12;
+        const products = await Product.find({subcategory: req.params.subcategoryId})
+            .skip((current_page-1)* perPage)
+            .populate('category')
+            .populate('subcategory')
+            .limit(perPage)
+            .exec();
+        res.json(products);
+    }
+    catch(err){
+        console.log(err);
+    }
+
+};
+//read by category
+exports.extractProductByCategory = async(req,res) =>{
+    try{
+        const {page} = req.body;
+        const current_page = page || 1;
+        const perPage = 12;
+        const products = await Product.find({category: req.params.categoryId})
+            .skip((current_page-1)* perPage)
+            .populate('category')
+            .populate('subcategory')
+            .limit(perPage)
+            .exec();
+        res.json(products);
+    }
+    catch(err){
+        console.log(err);
+    }
+};
+
+exports.searchFilters = async(req,res) =>{
+    const {query} = req.body;
+    if(query)
+    {
+        console.log(query);
+        await handleQuery(req,res, query);
+    }
 }

@@ -1,7 +1,7 @@
 const express = require('express')
 const {authCheck, adminCheck} = require("../middlewares/auth") 
 const router = express.Router()
-const {create, listAll, remove, read, update, list, productsCount, productStar, readCategoryProduct,readSubProduct} = require('../controllers/product');
+const {create, listAll, remove, read, update, list, productsCount, productStar, extractProductByCategory, readCategoryProduct,extractProductBySubs,readSubProduct, searchFilters} = require('../controllers/product');
 
 router.post('/product', authCheck, adminCheck, create)
 router.get('/products/:count', listAll);
@@ -13,4 +13,11 @@ router.post('/products' , list);
 router.put('/product/star/:productId', authCheck, productStar);
 router.get('/products/relatedcategory/:productId', readCategoryProduct);
 router.get('/products/relatedsubcategory/:productId', readSubProduct);
+router.post('/search/filter', searchFilters)
+//search product by subcategory
+router.get('/products/extractbysubs/:subcategoryId', extractProductBySubs);
+//search product by category
+router.get('/products/extractbycategory/:categoryId', extractProductByCategory);
+
+
 module.exports = router;
