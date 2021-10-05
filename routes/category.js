@@ -1,7 +1,7 @@
 const express = require('express')
 const {authCheck, adminCheck} = require("../middlewares/auth") 
 const router = express.Router()
-const {create, read, update, remove, list, getSubCategories, productCountWithCategory} = require('../controllers/category');
+const {create, read, update, remove, list, getSubCategories, getSubLists} = require('../controllers/category');
 
 router.post('/category', authCheck, adminCheck, create)
 router.get('/categories', list)
