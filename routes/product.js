@@ -15,9 +15,9 @@ router.get('/products/relatedcategory/:productId', readCategoryProduct);
 router.get('/products/relatedsubcategory/:productId', readSubProduct);
 router.post('/search/filter', searchFilters)
 //search product by subcategory
-router.get('/products/extractbysubs/:subcategoryId', extractProductBySubs);
+router.post('/products/extractbysubs/:subcategoryId', extractProductBySubs);
 //search product by category
-router.get('/products/extractbycategory/:categoryId', extractProductByCategory);
+router.post('/products/extractbycategory/:categoryId', extractProductByCategory);
 
 
 module.exports = router;

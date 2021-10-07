@@ -127,28 +127,20 @@ exports.readSubProduct = async(req,res) =>{
     }   
 };
 
-const handleQuery = async(req,res,query) =>{
-    const products = await Product.find({ $text : {$search : query}})
-        .populate('category', "_id name")
-        .populate('subcategory', "_id name")
-        .populate('brand', "_id name")
-        .exec();
-    res.json(products);
-};
-
 //read by subcategory
 exports.extractProductBySubs = async(req,res) =>{
     try{
         const {page} = req.body;
         const current_page = page || 1;
         const perPage = 12;
+        const total = await Product.find({subcategory: req.params.subcategoryId}).count().exec();
         const products = await Product.find({subcategory: req.params.subcategoryId})
             .skip((current_page-1)* perPage)
             .populate('category')
             .populate('subcategory')
             .limit(perPage)
             .exec();
-        res.json(products);
+        res.json({products, count:total});
     }
     catch(err){
         console.log(err);
@@ -161,17 +153,27 @@ exports.extractProductByCategory = async(req,res) =>{
         const {page} = req.body;
         const current_page = page || 1;
         const perPage = 12;
+        const total = await Product.find({category: req.params.categoryId}).count().exec();
         const products = await Product.find({category: req.params.categoryId})
             .skip((current_page-1)* perPage)
             .populate('category')
             .populate('subcategory')
             .limit(perPage)
             .exec();
-        res.json(products);
+        res.json({products, count: total});
     }
     catch(err){
         console.log(err);
     }
+};
+
+const handleQuery = async(req,res,query) =>{
+    const products = await Product.find({ $text : {$search : query}})
+        .populate('category', "_id name")
+        .populate('subcategory', "_id name")
+        .populate('brand', "_id name")
+        .exec();
+    res.json(products);
 };
 
 exports.searchFilters = async(req,res) =>{
