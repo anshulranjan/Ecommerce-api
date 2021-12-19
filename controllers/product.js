@@ -168,7 +168,22 @@ exports.extractProductByCategory = async(req,res) =>{
 };
 
 //FILTRS ---------------------------------------------------------
+const handleCategory = async (req,res, category) =>
+{
+    try{
+        let products = await Product.find({category})
+            .populate('category', "_id name")
+            .populate('subcategory', "_id name")
+            .populate('brand', "_id name")
+            .exec();
+        res.json(products);
 
+    }
+    catch(err){
+        console.log(err);
+    }
+
+}
 const handlePrice = async (req,res, price) => {
     try{
         let products = await Product.find({
@@ -197,7 +212,7 @@ const handleQuery = async(req,res,query) =>{
 };
 
 exports.searchFilters = async(req,res) =>{
-    const {query, price} = req.body;
+    const {query, price, category} = req.body;
     if(query)
     {
         console.log(query);
@@ -206,7 +221,12 @@ exports.searchFilters = async(req,res) =>{
     //price [0, 2000] mostly come in array
     if(price !== undefined)
     {
-        await handlePrice(req,res,price)
+        await handlePrice(req,res,price);
 
     }
+    if(category)
+    {
+        await handleCategory(req,res,category);
+    }
+
 }
