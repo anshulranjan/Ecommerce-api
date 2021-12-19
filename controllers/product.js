@@ -168,6 +168,20 @@ exports.extractProductByCategory = async(req,res) =>{
 };
 
 //FILTRS ---------------------------------------------------------
+const handleSub = async (req,res, sub) =>
+{
+    try{
+        let products = await Product.find({subcategory:sub})
+            .populate('category', "_id name")
+            .populate('subcategory', "_id name")
+            .populate('brand', "_id name")
+            .exec();
+        res.json(products);
+    }
+    catch(err){
+        console.log(err);
+    }
+}
 const handleCategory = async (req,res, category) =>
 {
     try{
@@ -212,7 +226,7 @@ const handleQuery = async(req,res,query) =>{
 };
 
 exports.searchFilters = async(req,res) =>{
-    const {query, price, category} = req.body;
+    const {query, price, category, sub} = req.body;
     if(query)
     {
         console.log(query);
@@ -227,6 +241,10 @@ exports.searchFilters = async(req,res) =>{
     if(category)
     {
         await handleCategory(req,res,category);
+    }
+    if(sub)
+    {   
+        await handleSub(req,res,sub);
     }
 
 }
