@@ -168,6 +168,35 @@ exports.extractProductByCategory = async(req,res) =>{
 };
 
 //FILTRS ---------------------------------------------------------
+
+const handleColor = async (req,res, color) =>
+{
+    try{
+        let products = await Product.find({color})
+            .populate('category', "_id name")
+            .populate('subcategory', "_id name")
+            .populate('brand', "_id name")
+            .exec();
+        res.json(products);
+    }
+    catch(err){
+        console.log(err);
+    }
+}
+const handleShipping = async (req,res, shipping) =>
+{
+    try{
+        let products = await Product.find({shipping})
+            .populate('category', "_id name")
+            .populate('subcategory', "_id name")
+            .populate('brand', "_id name")
+            .exec();
+        res.json(products);
+    }
+    catch(err){
+        console.log(err);
+    }
+}
 const handleSub = async (req,res, sub) =>
 {
     try{
@@ -226,7 +255,8 @@ const handleQuery = async(req,res,query) =>{
 };
 
 exports.searchFilters = async(req,res) =>{
-    const {query, price, category, sub} = req.body;
+    const {query, price, category, sub, shipping, color} = req.body;
+    
     if(query)
     {
         console.log(query);
@@ -246,5 +276,14 @@ exports.searchFilters = async(req,res) =>{
     {   
         await handleSub(req,res,sub);
     }
+    if(shipping)
+    {   
+        await handleShipping(req,res,shipping);
+    }
+    if(color)
+    {   
+        await handleColor(req,res,color);
+    }
+    
 
 }

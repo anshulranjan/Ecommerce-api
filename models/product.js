@@ -45,7 +45,7 @@ const productSchema = new Schema({
     },
     color:{
         type:String,
-        enum:["Black","Red","Green","Silver","White","Blue","Yellow","Black","Grey"],
+        enum:["Black","Red","Green","Silver","White","Blue","Yellow","Grey"],
     },
     ratings:[{
         star:Number,
