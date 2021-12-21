@@ -4,10 +4,10 @@ const User = require('../models/user');
 
 exports.create = async (req, res) => {
     try{
-        const {images,title, description, price, quantity, category, subcategory} = req.body.values;
+        const {images,title, description, price, quantity, subcategory} = req.body.values;
         req.body.slug = slugify(title);
         const{slug} = req.body;
-        const newProduct = await new Product({images,title,slug,description,subcategory,category, gender: req.body.gender, brand : req.body.brand, price, quantity, color:req.body.color, shipping:req.body.shipping}).save();
+        const newProduct = await new Product({images,title,slug,description,subcategory,category: req.body.category, gender: req.body.gender, brand : req.body.brand, price, quantity, color:req.body.color, shipping:req.body.shipping}).save();
         res.json(newProduct);
     }
     catch(err) {
