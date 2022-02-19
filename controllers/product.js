@@ -167,6 +167,7 @@ exports.extractProductByCategory = async(req,res) =>{
     }
 };
 
+
 //FILTRS ---------------------------------------------------------
 
 const handleColor = async (req,res, color) =>
