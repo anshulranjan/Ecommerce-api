@@ -57,3 +57,7 @@ exports.getSubCategories = async(req,res) => {
         res.json(subs);
     })
 };
+exports.getCategoryById = async(req,res) =>{
+    let category = await Category.findById(req.params._id).exec();
+    res.json(category);
+}
