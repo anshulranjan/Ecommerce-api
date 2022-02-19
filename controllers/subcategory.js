@@ -53,3 +53,8 @@ exports.getSubBrand = async(req,res) => {
         res.json(subs);
     })
 };
+
+exports.getSubCategoryById = async(req,res) =>{
+    let subcategory = await SubCategory.findById(req.params._id).exec();
+    res.json(subcategory);
+}
