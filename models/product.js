@@ -24,6 +24,14 @@ const productSchema = new Schema({
         required: true,
         trim: true,
     },
+    discount:{
+        type: Number,
+        trim: true,
+    },
+    delivery:{
+        type: Number,
+        trim: true,
+    },
     category: {type: ObjectId, ref: "Category", required: true},
     subcategory: {type: ObjectId, ref: "SubCategory", required: true},
     brand: {type: ObjectId, ref: "Brand", required: true},

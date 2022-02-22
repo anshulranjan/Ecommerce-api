@@ -4,10 +4,10 @@ const User = require('../models/user');
 
 exports.create = async (req, res) => {
     try{
-        const {images,title, description, price, quantity, subcategory} = req.body.values;
+        const {images,title, description, price, discout, delivery, quantity, subcategory} = req.body.values;
         req.body.slug = slugify(title);
         const{slug} = req.body;
-        const newProduct = await new Product({images,title,slug,description,subcategory,category: req.body.category, gender: req.body.gender, brand : req.body.brand, price, quantity, color:req.body.color, shipping:req.body.shipping}).save();
+        const newProduct = await new Product({images,title,slug,description,discout,delivery,subcategory,category: req.body.category, gender: req.body.gender, brand : req.body.brand, price, quantity, color:req.body.color, shipping:req.body.shipping}).save();
         res.json(newProduct);
     }
     catch(err) {
@@ -47,8 +47,8 @@ exports.read = async(req,res) => {
 
 exports.update = async(req, res) =>{
     try{
-        const {images,title, description, price, quantity, category, subcategory, color, gender, brand, shipping} = req.body;
-        const updated = await Product.findOneAndUpdate({slug: req.params.slug}, {images,title, description, price, quantity, category, subcategory, color, gender, brand, shipping, slug: slugify(title)}, {new: true});
+        const {images,title, description, delivery, discount, price, quantity, category, subcategory, color, gender, brand, shipping} = req.body;
+        const updated = await Product.findOneAndUpdate({slug: req.params.slug}, {images,title, description, price, delivery, discount, quantity, category, subcategory, color, gender, brand, shipping, slug: slugify(title)}, {new: true});
         res.json(updated);
     } catch(err) {
         res.status(400).send('Product updation failed');
