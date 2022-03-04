@@ -1,10 +1,8 @@
 const express = require('express')
+const {authCheck} = require("../middlewares/auth") 
+const {userCart} = require("../controllers/user")
 const router = express.Router()
 
-router.get('/user', (req,res)=>{
-    res.json({
-        data:"USER URL"
-    });
-});
+router.post('/user/cart', authCheck, userCart)
 
 module.exports = router;
