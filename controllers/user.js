@@ -11,13 +11,27 @@ exports.userCart = async(req,res) => {
     {
         cartExistsByThisUser.remove()
     }
+    let totalDiscount = 0;
+    let totalDelivery = 0;
     for(let i=0;i<cart.length; i++)
     {
         let object = {}
         object.product = cart[i]._id;
         object.count = cart[i].count;
         let { price } = await Product.findById(cart[i]._id).select("price").exec();
+        let { discount } = await Product.findById(cart[i]._id).select("discount").exec();
+        let { delivery } = await Product.findById(cart[i]._id).select("delivery").exec();
         object.price = parseInt(price);
+        if(delivery !== null)
+        {
+            object.delivery = parseInt(delivery);
+            totalDelivery = totalDelivery + object.delivery * object.count;
+        }
+        if(discount !== null)
+        {
+            object.discount = parseInt(discount);
+            totalDiscount = totalDiscount + object.discount * object.count;
+        }
         products.push(object);
     }
     let cartTotal = 0;
@@ -28,8 +42,16 @@ exports.userCart = async(req,res) => {
     let newCart = await new Cart({
         products,
         cartTotal,
+        totalDiscount,
+        totalDelivery,
         orderedBy: user._id,
     }).save();
     res.json({ok:true})
+};
 
+exports.getUserCart = async(req,res) =>{
+    const user = await User.findOne({email:req.user.email}).exec();
+    let cart = await Cart.findOne({orderedBy: user._id}).populate('products.product','').exec();
+    const {products, cartTotal, totalAfterDiscount, totalAfterCouponDiscount, totalDelivery} = cart;
+    res.json({products, cartTotal, totalAfterDiscount, totalAfterCouponDiscount, totalDelivery});
 }

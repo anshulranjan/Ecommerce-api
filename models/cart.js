@@ -9,11 +9,14 @@ const cartSchema = new Schema({
                 ref: 'Product'
             },
             count: Number,
-            price: Number
+            price: Number,
+            discount: Number,
+            delivery: Number,
         }
     ],
     cartTotal: Number,
-    totalAfterDiscount: Number,
+    totalDiscount: Number,
+    totalAfterCouponDiscount: Number,
     totalDelivery: Number,
     orderedBy: {type: ObjectId, ref: "User"},
 },{timestamps: true});
