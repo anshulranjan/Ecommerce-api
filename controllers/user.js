@@ -22,12 +22,12 @@ exports.userCart = async(req,res) => {
         let { discount } = await Product.findById(cart[i]._id).select("discount").exec();
         let { delivery } = await Product.findById(cart[i]._id).select("delivery").exec();
         object.price = parseInt(price);
-        if(delivery !== null)
+        if(delivery !== null && delivery !== undefined)
         {
             object.delivery = parseInt(delivery);
             totalDelivery = totalDelivery + object.delivery * object.count;
         }
-        if(discount !== null)
+        if(discount !== null && discount !== undefined)
         {
             object.discount = parseInt(discount);
             totalDiscount = totalDiscount + object.discount * object.count;

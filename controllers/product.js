@@ -285,6 +285,5 @@ exports.searchFilters = async(req,res) =>{
     {   
         await handleColor(req,res,color);
     }
-    
-
 }
+
