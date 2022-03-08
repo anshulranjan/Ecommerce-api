@@ -52,6 +52,12 @@ exports.userCart = async(req,res) => {
 exports.getUserCart = async(req,res) =>{
     const user = await User.findOne({email:req.user.email}).exec();
     let cart = await Cart.findOne({orderedBy: user._id}).populate('products.product','').exec();
-    const {products, cartTotal, totalAfterDiscount, totalAfterCouponDiscount, totalDelivery} = cart;
-    res.json({products, cartTotal, totalAfterDiscount, totalAfterCouponDiscount, totalDelivery});
+    const {products, cartTotal, totalDiscount, totalAfterCouponDiscount, totalDelivery} = cart;
+    res.json({products, cartTotal, totalDiscount, totalAfterCouponDiscount, totalDelivery});
+}
+
+exports.emptyCart = async(req,res) => {
+    const user = await User.findOne({email:req.user.email}).exec();
+    const removedcart = await Cart.findOneAndRemove({orderedBy: user._id}).exec();
+    res.json({ok:true})
 }
