@@ -66,3 +66,8 @@ exports.saveAddress = async(req,res) => {
     const userAddress = await User.findOneAndUpdate({email:req.user.email}, {address:req.body.address}).exec()
     res.json({ok:true})
 }
+
+exports.getAddress = async(req,res) => {
+    const UserAddress = await User.find({email:req.user.email}).select('address').exec()
+    res.json({address:UserAddress})
+}
