@@ -1,6 +1,7 @@
 const User = require("../models/user")
 const Product = require("../models/product")
 const Cart = require("../models/cart")
+const Coupon = require("../models/coupon")
 
 exports.userCart = async(req,res) => {
     const {cart} = req.body;
@@ -70,4 +71,20 @@ exports.saveAddress = async(req,res) => {
 exports.getAddress = async(req,res) => {
     const UserAddress = await User.find({email:req.user.email}).select('address').exec()
     res.json({address:UserAddress})
+}
+
+exports.applyCoupon = async(req,res) => {
+    const {coupon} = req.body;
+    const validCoupon = Coupon.findOne({name:coupon}).exec()
+    if(validCoupon === null)
+    {
+        return (res.json({err:"Invalid Coupon"}))
+    }
+    const user = User.findOne({email: req.user.email}).exec()
+    const {products, totalFinalAmount} = await Cart.findOne({orderedBy: user._id}).populate("products.product","_id title price").exec();
+    let totalCouponDiscount = validCoupon.discount;
+    let totalFinalAmount = totalFinalAmount - totalCouponDiscount;
+    Cart.findOneAndUpdate({orderedBy: user._id}, {totalCouponDiscount, totalFinalAmount}, {new:true});
+    res.json({totalFinalAmount, totalCouponDiscount})
+
 }

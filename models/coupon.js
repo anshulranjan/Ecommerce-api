@@ -9,7 +9,7 @@ const couponSchema = new Schema({
         unique:true,
         uppercase:true,
         minlength: 6,
-        maxlength: 12,
+        maxlength: 15,
     },
     expiry:{
         type:Date,

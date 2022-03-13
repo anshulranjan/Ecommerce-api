@@ -16,8 +16,9 @@ const cartSchema = new Schema({
     ],
     cartTotal: Number,
     totalDiscount: Number,
-    totalAfterCouponDiscount: Number,
+    totalCouponDiscount: Number,
     totalDelivery: Number,
+    totalFinalAmount: Number,
     orderedBy: {type: ObjectId, ref: "User"},
 },{timestamps: true});
 module.exports = mongoose.model('Cart', cartSchema);
